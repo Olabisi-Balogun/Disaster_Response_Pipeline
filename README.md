@@ -1,4 +1,12 @@
 # Disaster Response Pipeline Project
+### Project Motivation
+The project classifies messages received during a disaster in other for different aid agencies to provide 
+appropriate resources to people in need.
+
+### File Description
+There are three main files - the process.py (ETL pipeline)to clean and preprocess the data; train_classifier.py(ML pipeline) builds the model that classifies the messages; 
+The process.py can be found in the data folder. The train_classifier.py is located in the model folder
+
 
 ### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
