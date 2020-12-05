@@ -15,12 +15,9 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from sklearn.model_selection import GridSearchCV
-from sklearn.multiclass import OneVsRestClassifier
-from sklearn.linear_model import LogisticRegression
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.neighbors import KNeighborsClassifier
 import pickle
-from sklearn.preprocessing import MultiLabelBinarizer
-from sklearn.svm import LinearSVC
-from sklearn.ensemble import GradientBoostingClassifier
 
 
 def load_data(database_filepath):
@@ -49,7 +46,7 @@ def load_data(database_filepath):
 	categories = list(df.columns.values)
 	categories = categories[4:]
 
-	return df, categories
+	return X,Y, categories
 
 
 def tokenize(text):
@@ -75,10 +72,10 @@ def build_model():
     OUTPUT: pipeline
     '''
     pipeline = Pipeline([
-        ('vect',CountVectorizer(tokenizer=tokenize, max_df=0.8, ngram_range=(1,2))),
-        ('tfidf',TfidfTransformer(use_idf=False)),
-        ('clf', OneVsRestClassifier(LinearSVC()))
-    ])
+    ('vect', CountVectorizer(tokenizer=tokenize,max_df=0.8)),
+    ('tfidf',TfidfTransformer()),
+    ('clf', MultiOutputClassifier(KNeighborsClassifier(weights='distance')))
+])
    
     
     return pipeline
@@ -86,19 +83,19 @@ def build_model():
 
 #def evaluate_model(model, X_test, Y_test, category_names):
  #   pass
-def evaluate_model(model, y_test, test_message,category_names):
+def evaluate_model(model, X_test, Y_test,category_names):
 	'''
 	INPUT: model, test_x data, test_y data
 
 	TASK: predict and evaluate prediction on test data
 
 	'''
+	prediction = model.predict(X_test)
 
-	for category in category_names:
-		print("**Processing {}".format(category))
+	for category in range(len(category_names)):
+		print("**Processing {}".format(category_names[category]))
 		#predict using model on test data
-		prediction = model.predict(test_message)
-		print(metrics.classification_report(y_test[category], prediction, labels=np.unique(prediction)))
+		print(metrics.classification_report(Y_test[:,category], prediction[:,category]))
 
 
 def save_model(model, model_filepath):
@@ -113,25 +110,20 @@ def main():
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
-        df, category_names = load_data(database_filepath)
-        train, test = train_test_split(df, test_size=0.2)
-
-        train_message = train['message']
-        test_message = test['message']
-
-        y_train = train.drop(labels=['id','message','original','genre'], axis=1)
-        y_test = test.drop(labels=['id','message','original','genre'], axis=1)
+        X,Y,category_names = load_data(database_filepath)
+        X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size=0.33, random_state=42)
+      
         
         print('Building model...')
         model = build_model()
         
         print('Training model...')
-        for category in category_names:
-        	model.fit(train_message, y_train[category])
+        model.fit(X_train,Y_train)
+      
         
         print('Evaluating model...')
         #evaluate_model(model, X_test, Y_test, category_names)
-        evaluate_model(model, y_test,test_message,category_names)
+        evaluate_model(model, X_test,Y_test,category_names)
 
         print('Saving model...\n    MODEL: {}'.format(model_filepath))
         save_model(model, model_filepath)
