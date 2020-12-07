@@ -24,3 +24,6 @@ The process.py can be found in the data folder. The train_classifier.py is locat
 ### Outcome
 A message is entered in the web application and the message is classified to match the needs of individuals that entered the message.
 
+### Acknowledgement
+Parts of code were referenced from Udacity
+
