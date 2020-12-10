@@ -14,8 +14,11 @@ appropriate resources to people in need.
 There are three main files - the process.py (ETL pipeline)to clean and preprocess the data; train_classifier.py(ML pipeline) builds the model that classifies the messages; run.py loads the front-end of the application, executes the model classification and loads the visualization.
 The process.py can be found in the data folder. The train_classifier.py is located in the model folder. The run.py is located in the app folder.
 
+### Getting Started
+* #### Installation
+    install Anaconda or Python version 3, scikit-learn, pandas, and numpy
 
-### Instructions:
+* #### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
@@ -29,7 +32,7 @@ The process.py can be found in the data folder. The train_classifier.py is locat
 3. Go to http://0.0.0.0:3001/
 
 ### Usage
-Enter message into the input textbox, then click enter to get the categories the message is classified under.
+Enter message into the input textbox, then click 'classify message' to get the categories the message is classified under.
 ![](images/web_app.jpg)
 ![](images/web_app2.jpg)
 
