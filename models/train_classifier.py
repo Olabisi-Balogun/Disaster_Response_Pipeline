@@ -68,7 +68,7 @@ def tokenize(text):
 
 def build_model():
     '''
-    TASK : build a machine learning pipeline
+    TASK : build a machine learning pipeline; GridSearchCV has been used to choose best hyperparamters
     OUTPUT: pipeline
     '''
     pipeline = Pipeline([

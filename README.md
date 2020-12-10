@@ -4,8 +4,8 @@ The project classifies messages received during a disaster in other for differen
 appropriate resources to people in need.
 
 ### File Description
-There are three main files - the process.py (ETL pipeline)to clean and preprocess the data; train_classifier.py(ML pipeline) builds the model that classifies the messages; 
-The process.py can be found in the data folder. The train_classifier.py is located in the model folder
+There are three main files - the process.py (ETL pipeline)to clean and preprocess the data; train_classifier.py(ML pipeline) builds the model that classifies the messages; run.py loads the front-end of the application, executes the model classification and loads the visualization.
+The process.py can be found in the data folder. The train_classifier.py is located in the model folder. The run.py is located in the app folder.
 
 
 ### Instructions:
@@ -20,3 +20,22 @@ The process.py can be found in the data folder. The train_classifier.py is locat
     `python run.py`
 
 3. Go to http://0.0.0.0:3001/
+
+### Usage
+
+
+### Outcome
+A message is entered in the web application and the message is classified to match the needs of individuals that entered the message.
+
+### License
+MIT License
+
+Copyright (c) [2020] [Olabisi Balogun]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this work and its associated documentation files including without
+limitation to the rights to use, copy, and modify the work.
+
+
+### Acknowledgement
+Parts of code were referenced from Udacity
+
