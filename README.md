@@ -21,8 +21,20 @@ The process.py can be found in the data folder. The train_classifier.py is locat
 
 3. Go to http://0.0.0.0:3001/
 
+### Usage
+
+
 ### Outcome
 A message is entered in the web application and the message is classified to match the needs of individuals that entered the message.
+
+### License
+MIT License
+
+Copyright (c) [2020] [Olabisi Balogun]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this work and its associated documentation files including without
+limitation to the rights to use, copy, and modify the work.
+
 
 ### Acknowledgement
 Parts of code were referenced from Udacity
