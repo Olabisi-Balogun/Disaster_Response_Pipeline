@@ -11,8 +11,10 @@ appropriate resources to people in need.
 * Scikit-learn
 
 ### File Description
-There are three main files - the process.py (ETL pipeline)to clean and preprocess the data; train_classifier.py(ML pipeline) builds the model that classifies the messages; run.py loads the front-end of the application, executes the model classification and loads the visualization.
-The process.py can be found in the data folder. The train_classifier.py is located in the model folder. The run.py is located in the app folder.
+* app <br> | - template <br> |  | - master.html #main page of the web app <br>| | - go.html #classification result page of web app <br> | | - run.py # Flask file that runs the app
+* data <br> | - disaster_categories.csv # data to process <br> | - disaster_messages.csv # data to process <br> | - process_data.py <br> | - DisasterResponse.db #database to save clean data
+* models <br> | - train_classifier.py <br> | - classifier.pkl #saved model
+* README.md
 
 ### Getting Started
 * #### Installation
