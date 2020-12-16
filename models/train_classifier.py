@@ -1,6 +1,7 @@
 import sys
 import nltk
 nltk.download(['punkt','wordnet'])
+nltk.download('stopwords')
 
 import pandas as pd
 import numpy as np
@@ -57,6 +58,9 @@ def tokenize(text):
     '''
     #tokenize text
     tokens = word_tokenize(text)
+
+    #remove stop words
+    tokens = [token for token in tokens if token not in stopwords.words('english')]
     
     #perform lemmatization
     clean_tokens = []
@@ -68,17 +72,24 @@ def tokenize(text):
 
 def build_model():
     '''
-    TASK : build a machine learning pipeline; GridSearchCV has been used to choose best hyperparamters
+    TASK : build a machine learning pipeline
     OUTPUT: pipeline
     '''
     pipeline = Pipeline([
-    ('vect', CountVectorizer(tokenizer=tokenize,max_df=0.8)),
+    ('vect', CountVectorizer(tokenizer=tokenize)),
     ('tfidf',TfidfTransformer()),
-    ('clf', MultiOutputClassifier(KNeighborsClassifier(weights='distance')))
+    ('clf', MultiOutputClassifier(KNeighborsClassifier()))
 ])
+    param_grid = {
+    'vect__ngram_range':[(1,1), (1,2)],
+    'vect__max_df':[0.8, 1.0],
+    'tfidf__use_idf':(True, False),
+    'clf__estimator__weights':('uniform','distance')
+    }
+    search = GridSearchCV(pipeline, param_grid, cv=5, refit= True)
    
     
-    return pipeline
+    return search
 
 
 #def evaluate_model(model, X_test, Y_test, category_names):
