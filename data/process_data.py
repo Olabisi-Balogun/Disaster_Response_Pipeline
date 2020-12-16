@@ -5,6 +5,13 @@ from sqlalchemy import create_engine
 
 
 def load_data(messages_filepath, categories_filepath):
+  '''
+  INPUT: message csv and categories csv
+
+  TASK: merge the two datasets
+
+  OUTPUT: combined dataset
+  '''
   #read in data
   messages = pd.read_csv(messages_filepath)
   categories = pd.read_csv(categories_filepath)
@@ -16,6 +23,14 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+  '''
+  INPUT: dataframe
+
+  TASK: preprocess the categories column, split string and separate into
+  individual columns; drop duplicates and rows with category value of 2
+
+  OUTPUT: clean dataframe
+  '''
   # create a dataframe of the 36 individual category columns
   categories = df["categories"].str.split(";", expand=True)
 
@@ -40,6 +55,10 @@ def clean_data(df):
   # concatenate the original dataframe with the new `categories` dataframe
   df = pd.concat([df, categories], axis=1)
 
+  #drop rows that have value 2 in the related column of df
+  df = df[df.related !=2]
+
+
   #remove duplicates
   df.drop_duplicates(inplace = True)
 
@@ -48,14 +67,23 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
+  '''
+  INPUT: dataframe, database name
+
+  TASK: create a database and store the dataframe as a table
+  '''
   #create a database
   engine = create_engine('sqlite:///{}'.format(database_filename))
   #create a table in the database and store the clean dataset
-  df.to_sql('messages', engine, index=False)
+  df.to_sql('messages', engine, index=False, if_exists='replace')
 
 
 
 def main():
+  '''
+  TASK: retrieve arguments from command line and call functions to preprocess data;
+         create a 'messages' table in a database 'DisasterResponsedb'
+  '''
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]
